@@ -1,0 +1,145 @@
+extends ../node_modules/pug-pack/src/_base
+
+append head
+  title Text2MindMap
+  link(rel='shortcut icon', type='image/png', href='favicon.png')
+  link(file='styles/old/customstyles.css')
+  link(file='styles/old/jquery-ui-1.10.3.custom.min.css')
+  link(rel='stylesheet', href='https://cdn.jsdelivr.net/jquery.minicolors/2.0.4/jquery.minicolors.css')
+  script(defer='', src='https://use.fontawesome.com/releases/v5.0.9/js/all.js', integrity='sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl', crossorigin='anonymous')
+  :inject(file='styles/app.css')
+  :inject(file='styles/navbar.css')
+  :inject(file='styles/modal.css')
+  :inject(file='styles/document_title.css')
+  :inject(file='styles/editor.css')
+  :inject(file='styles/viewer.css')
+  :inject(file='styles/pane_resizer.css')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+  script(src='https://cdn.jsdelivr.net/jquery.minicolors/2.0.4/jquery.minicolors.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.8/d3.min.js')
+  :inject(file='scripts/old/kineticjs.js')
+  :inject(file='scripts/old/jquery.cookie.min.js')
+  :inject(file='scripts/old/difflib.js')
+  script.
+      var viewcode = "";
+      var admincode = "";
+      var map = "";
+      var savingState = "unsaved";
+      var isOldBrowser = false;
+      var isIE = false;
+      var logged_in = "";
+      var userid = "";
+      var user = "";
+  :inject(file='scripts/old/mindmap.min.js')
+  :inject(file='scripts/unsaved_changes.js')
+  :inject(file='scripts/settings.js')
+  :inject(file='scripts/document_title.js')
+  :inject(file='scripts/file_import.js')
+  :inject(file='scripts/file_export.js')
+  :inject(file='scripts/app_functions.js')
+  :inject(file='scripts/navbar.js')
+  :inject(file='scripts/modal.js')
+  :inject(file='scripts/pane_resizer.js')
+  :inject(file='scripts/shortcuts.js')
+  :inject(file='scripts/main.js')
+
+append body
+  .wrapper
+    .navbar
+      ul
+        li.navbar-item
+          .document-title-container
+            input.document-title-input
+            .document-title-mirror
+        li.navbar-item.navbar-button.navbar-dropdown
+          a(href='#') File
+          ul.dropdown-content
+            li
+              a#file-new(href='#')
+                i.fa.fa-file.fa-fw
+                | New
+                span.dropdown-shortcut Ctrl+N
+            li
+              a#file-open(href='#')
+                i.fa.fa-upload.fa-fw
+                | Open...
+                span.dropdown-shortcut Ctrl+O
+            li
+              a#file-save(href='#')
+                i.fa.fa-save.fa-fw
+                | Save...
+                span.dropdown-shortcut Ctrl+S
+            li
+              a#file-rename(href='#')
+                svg
+                | Rename...
+                span.dropdown-shortcut
+        li.navbar-item.navbar-button.navbar-dropdown
+          a(href='#') Mind Map
+          ul.dropdown-content
+            li
+              a#mindmap-lock-all(href='#')
+                i.fa.fa-lock.fa-fw
+                | Lock all
+                span.dropdown-shortcut
+            li
+              a#mindmap-unlock-all(href='#')
+                i.fa.fa-unlock.fa-fw
+                | Unlock all
+                span.dropdown-shortcut
+            li.dropdown-divider
+            li
+              a#file-preferences(href='#')
+                i.fa.fa-cogs.fa-fw
+                | Preferences
+        a.navbar-item.navbar-icon(href='https://twitter.com/TobLoef')
+          i.fab.fa-twitter
+        a.navbar-item.navbar-icon(href='https://github.com/TobLoef/text2mindmap')
+          i.fab.fa-github
+        a.navbar-item.navbar-text(href='http://eepurl.com/dpN4zb', target='_blank') Subscribe to newsletter
+    #pane-container
+      #editor-pane
+        #editor
+          .collapse-button#editor-collapse-button(style='visibility: visible;left: calc(100% - 29px);')
+            div
+              i.fa.fa-fw.fa-chevron-left
+          textarea#textArea(wrap='off', exp='')
+      #viewer-pane
+        .collapse-button#viewer-collapse-button(style='visibility: hidden;')
+          div
+            i.fa.fa-fw.fa-chevron-right
+        #dragbar
+        #viewer-container
+          #stageHolder
+  .modal-container
+    .modal#settings-modal
+      .modal-dialog
+        .modal-content
+          .modal-header
+            span.modal-title Preferences
+            button.close-button.close-modal ×
+            ul.modal-tabs
+              li.active(data-tab='setting-tab-general') General
+          .modal-body
+            .tab-content.active#setting-tab-general
+              form
+                .form-group
+                  label.control-label Lock after moving
+                  .checkbox-control
+                    input#lockAfterMoving(type='checkbox', checked='')
+                    label(for='lockAfterMoving') Freeze a node after it has been moved
+                .form-group
+                  label.control-label Color mode
+                  select#coloringMode
+                    option(value='2') Branch
+                    option(value='1') Level
+                .form-group
+                  label.control-label Colors
+                  #colors.form-div
+          .modal-footer
+            button.button.close-modal Cancel
+            button.button.dark#modal-settings-save
+              i.fa.fa-save.fa-lg
+              | Save
+      .modal-backdrop.close-modal
+  input#file-input(type='file', accept='.txt')
