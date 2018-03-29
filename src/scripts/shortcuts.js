@@ -10,7 +10,7 @@ shortcuts = (function() {
 		if (event.shiftKey) {
 			keys.push("shift");
 		}
-		if ((event.ctrlKey || event.metaKey)) {
+		if (event.metaKey) {
 			keys.push("ctrl");
 		}
 		if (event.altKey) {
